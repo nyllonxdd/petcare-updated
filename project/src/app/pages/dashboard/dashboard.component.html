@@ -1,0 +1,123 @@
+<div class="dashboard-container">
+  <aside class="sidebar" [class.collapsed]="sidebarCollapsed">
+    <div class="logo">
+      <span class="logo-icon">🐾</span>
+      <span class="logo-text" *ngIf="!sidebarCollapsed">PetCare</span>
+    </div>
+
+    <nav class="menu">
+      <div class="menu-item active" (click)="navigateTo('dashboard')">
+        <span class="menu-icon">🏠</span>
+        <span class="menu-text" *ngIf="!sidebarCollapsed">Dashboard</span>
+      </div>
+      <div class="menu-item" (click)="navigateTo('shop')">
+        <span class="menu-icon">🛍️</span>
+        <span class="menu-text" *ngIf="!sidebarCollapsed">Shop</span>
+      </div>
+      <div class="menu-item" (click)="navigateTo('vaccines')">
+        <span class="menu-icon">💉</span>
+        <span class="menu-text" *ngIf="!sidebarCollapsed">Vaccines</span>
+      </div>
+      <div class="menu-item" (click)="navigateTo('vets')">
+        <span class="menu-icon">🧑‍⚕️</span>
+        <span class="menu-text" *ngIf="!sidebarCollapsed">Vets</span>
+      </div>
+      <div class="menu-item" (click)="navigateTo('profile')">
+        <span class="menu-icon">👤</span>
+        <span class="menu-text" *ngIf="!sidebarCollapsed">Profile</span>
+      </div>
+      <div class="menu-item logout" (click)="navigateTo('logout')">
+        <span class="menu-icon">🚪</span>
+        <span class="menu-text" *ngIf="!sidebarCollapsed">Logout</span>
+      </div>
+    </nav>
+
+    <button class="toggle-btn" (click)="toggleSidebar()">
+      {{ sidebarCollapsed ? '→' : '←' }}
+    </button>
+  </aside>
+
+  <main class="main-content">
+    <section class="welcome-section">
+      <h1>Welcome back, {{ userName }}!</h1>
+      <p class="subtext">Here's everything you need to care for your pets today.</p>
+    </section>
+
+    <section class="pet-cards-section">
+      <h2>Your Pets</h2>
+      <div class="pet-cards-grid">
+        <div class="pet-card" *ngFor="let pet of pets">
+          <div class="pet-photo">
+            <img [src]="pet.photo" [alt]="pet.name">
+          </div>
+          <div class="pet-info">
+            <h3>{{ pet.name }}</h3>
+            <p class="breed">{{ pet.breed }}</p>
+            <p class="age">{{ pet.age }} year{{ pet.age > 1 ? 's' : '' }} old</p>
+            <div class="vaccination-status" [class.up-to-date]="pet.vaccinationStatus === 'up-to-date'" [class.due-soon]="pet.vaccinationStatus === 'due-soon'">
+              <span class="status-icon">{{ pet.vaccinationStatus === 'up-to-date' ? '✔' : '⚠' }}</span>
+              <span class="status-text">{{ pet.vaccinationStatus === 'up-to-date' ? 'Up to Date' : 'Due Soon' }}</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="quick-actions-section">
+      <h2>Quick Actions</h2>
+      <div class="quick-actions-grid">
+        <div class="action-card" (click)="navigateToQuickAction('vets')">
+          <span class="action-icon">🏥</span>
+          <h3>Book Vet Appointment</h3>
+          <p>Schedule a visit with our trusted vets</p>
+        </div>
+        <div class="action-card" (click)="navigateToQuickAction('shop')">
+          <span class="action-icon">🛒</span>
+          <h3>Shop for Pet Essentials</h3>
+          <p>Browse food, toys, and accessories</p>
+        </div>
+        <div class="action-card" (click)="navigateToQuickAction('vaccines')">
+          <span class="action-icon">💉</span>
+          <h3>View Vaccine Records</h3>
+          <p>Track your pets' vaccination history</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="history-section">
+      <h2>Your Recent Activity</h2>
+      <div class="activity-table-container">
+        <table class="activity-table">
+          <thead>
+            <tr>
+              <th>Date</th>
+              <th>Activity Type</th>
+              <th>Description</th>
+              <th>Status</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let activity of activities; let i = index" [class.alternate]="i % 2 === 1">
+              <td>{{ activity.date }}</td>
+              <td>{{ activity.type }}</td>
+              <td>{{ activity.description }}</td>
+              <td>
+                <span class="status-badge" [class.completed]="activity.status === 'Completed'" [class.upcoming]="activity.status === 'Upcoming'">
+                  {{ activity.status }}
+                </span>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <footer class="dashboard-footer">
+      <p>© 2025 PetCare. Love. Heal. Protect.</p>
+    </footer>
+  </main>
+
+  <button class="chatbot-button" (click)="openChatbot()" aria-label="Open chatbot">
+    <span class="chatbot-icon">🐾</span>
+  </button>
+</div>
